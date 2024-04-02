@@ -1,4 +1,4 @@
-# Exercise 5: The Real Turtlebot 4
+# Tutorial 5: The Real Turtlebot 4
 
 #### Development of Inteligent Systems, 2024
 
