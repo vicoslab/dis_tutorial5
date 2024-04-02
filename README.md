@@ -42,12 +42,17 @@ To resume work with the robot:
 
 If the buttons on the display do not respond or the display is off, it means that the Pi 4 is powered off, unless the lidar is spinning, in which case the ROS 2 nodes that handle the screen may not running or the boot process hasn't finished yet.
 
-![oled](figs/oled.png)
-*OLED display: Buttons 3 and 4 select the action, button 1 confirms it, button 2 scrolls back to top. The top bar shows battery level and IP address*
+
 
 ## STEP 2 - Connecting to the robot from your workstation
 
 Your computer should be connected to the Turtlenet network. After it is connected, you need to run a script each time you work with a different Turtlebot. On each robot you can see the ROS_DOMAIN_ID and the current IP address (on the small display.)
+
+![domain](figs/domain.png)
+*The sticker with the ROS_DOMAIN_ID, different for each robot
+
+![oled](figs/oled.png)
+*OLED display: The first line shows the IP address. Buttons 3 and 4 select the action, button 1 confirms it, button 2 scrolls back to top. The top bar shows battery level and IP address*
 
 Run the script in this tutorial (or follow the [official manual](https://turtlebot.github.io/turtlebot4-user-manual/setup/discovery_server.html#user-pc)):
 ```
@@ -62,8 +67,6 @@ The script will ask you for the following:
 - ROS_DOMAIN_ID: *write the ROS_DOMAIN_ID from the top plate of the robot
 
 Note that this will add a `source /etc/turtlebot4_discovery/setup.bash` into your `~/.bashrc` file, which needs to be commented out when running a simulation setup.
-
-![domain](figs/domain.png)
 
 Then, restart the ros2 daemon:
 ```
