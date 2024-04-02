@@ -56,7 +56,7 @@ Your computer should be connected to the Turtlenet network. After it is connecte
 
 Run the script in this tutorial (or follow the [official manual](https://turtlebot.github.io/turtlebot4-user-manual/setup/discovery_server.html#user-pc)):
 ```
-    bash configure_discovery.sh </dev/tty
+bash configure_discovery.sh </dev/tty
 ```
 
 The script will ask you for the following:
@@ -70,8 +70,8 @@ Note that this will add a `source /etc/turtlebot4_discovery/setup.bash` into you
 
 Then, restart the ros2 daemon:
 ```
-    ros2 daemon stop
-    ros2 daemon start
+ros2 daemon stop
+ros2 daemon start
 ```
  
 Then, source .bashrc, or re-open any terminals so the new `.bashrc` is properly sourced. This should be it!
