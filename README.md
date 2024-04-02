@@ -56,10 +56,10 @@ Run the script in this tutorial (or follow the [official manual](https://turtleb
 
 The script will ask you for the following:
 
-- RPi4 IP address: <write the ip address from the robot display>
-- Discovery Server IP: <press enter>
-- Discovery Server port: <press enter>
-- ROS_DOMAIN_ID: <write the ROS_DOMAIN_ID from the top plate of the robot>
+- RPi4 IP address: *write the ip address from the robot display
+- Discovery Server IP: *press enter
+- Discovery Server port: *press enter
+- ROS_DOMAIN_ID: *write the ROS_DOMAIN_ID from the top plate of the robot
 
 Note that this will add a `source /etc/turtlebot4_discovery/setup.bash` into your `~/.bashrc` file, which needs to be commented out when running a simulation setup.
 
