@@ -1,6 +1,6 @@
 # Tutorial 5: The Real Turtlebot 4
 
-#### Development of Inteligent Systems, 2024
+#### Development of Intelligent Systems, 2024
 
 ![robots](figs/robots.png)
 *The Company of iRobot*
@@ -40,7 +40,7 @@ To resume work with the robot:
 
 > Note that the Create3 cannot be turned off while on the charging station, and the only way to turn it on when it's powered off is to place it on the dock. If the power is cut to the Pi 4 by turning off the Create3 before executing safe shutdown, it might corrupt the SD card.
 
-If the buttons on the display do not respond or the display is off, it means that the Pi 4 is powered off, unless the lidar is spinning, in which case the ROS 2 nodes that handle the screen may not running or the boot process hasn't finished yet.
+If the buttons on the display do not respond or the display is off, it means that the Pi 4 is powered off, unless the lidar is spinning, in which case the ROS 2 nodes that handle the screen may not be running or the boot process hasn't finished yet.
 
 
 
@@ -106,7 +106,7 @@ Once you have save a map, we can navigatte the robot on the map. Again, follow t
 
 ![tf_rviz](figs/tf_rviz.png)
 
-The transform system in ROS 2 is a standardized way to define and handle coordinate frames and transforms between them. It comprises of two topics: `/tf` and `/tf_static`, as well as a collection of libraries for python and C++.
+The transform system in ROS 2 is a standardized way to define and handle coordinate frames and transforms between them. It consists of two topics: `/tf` and `/tf_static`, as well as a collection of libraries for python and C++.
 
 Every robot is defined by a collection of coordinate frames, with `base_link` being considered the parent frame for the current robot. Other common frames include:
 
@@ -116,7 +116,7 @@ Every robot is defined by a collection of coordinate frames, with `base_link` be
 - `world` or `earth` - localizes one or multiple robots on the world WGS84 system based on GNSS or other global data
 - sensor frames like `camera`, `imu`, `laser`, `sonar`, etc. which reflect the position and rotation of sensors mounted on the real robot, so their data can be accurately transformed into other frames
 
-When multiple robots are in the same TF graph, the conventional way to separate them is using namespacing, i.e. prepending a robot name to the frames. that way `/robot1/base_link` can be distint from `/robot2/base_link` while using the same conventions or even be built from the same URDF file.
+When multiple robots are in the same TF graph, the conventional way to separate them is using namespacing, i.e. prepending a robot name to the frames. that way `/robot1/base_link` can be distinct from `/robot2/base_link` while using the same conventions or even be built from the same URDF file.
 
 You can use the following command to collect and view currently available frames:
 
