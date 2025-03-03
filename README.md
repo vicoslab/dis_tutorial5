@@ -43,10 +43,13 @@ To resume work with the robot:
 If the buttons on the display do not respond or the display is off, it means that the Pi 4 is powered off, unless the lidar is spinning, in which case the ROS 2 nodes that handle the screen may not be running or the boot process hasn't finished yet.
 
 
-
 ## STEP 2 - Connecting to the robot from your workstation
 
-Your computer should be connected to the Turtlenet network. After it is connected, you need to run a script each time you work with a different Turtlebot. On each robot you can see the ROS_DOMAIN_ID and the current IP address (on the small display.)
+Your computer should be connected to the same network as the robot (e.g. for the robot `Kili`, connect to `KiliWifi` or `KiliWifi_5GHz`).
+
+After it is connected, you need to adjust the ROS_DOMAIN_ID to match the one written on the robot, and switch `RMW_IMPLEMENTATION` to `rmw_cyclonedds_cpp`.
+
+The Cyclone middleware requires [an xml config](cyclonedds.xml), specified as the `CYCLONEDDS_URI` envrionment variable.
 
 ![domain](figs/domain.png)
 *The sticker with the ROS_DOMAIN_ID, different for each robot
@@ -54,43 +57,47 @@ Your computer should be connected to the Turtlenet network. After it is connecte
 ![oled](figs/oled.png)
 *OLED display: The first line shows the IP address. Buttons 3 and 4 select the action, button 1 confirms it, button 2 scrolls back to top. The top bar shows battery level and IP address*
 
-Run the script in this tutorial (or follow the [official manual](https://turtlebot.github.io/turtlebot4-user-manual/setup/discovery_server.html#user-pc)):
+
+Make sure your `.bashrc` looks as follows:
 ```
-bash configure_discovery.sh </dev/tty
-```
-
-The script will ask you for the following:
-
-- RPi4 IP address: *write the ip address from the robot display
-- Discovery Server IP: *press enter
-- Discovery Server port: *press enter
-- ROS_DOMAIN_ID: *write the ROS_DOMAIN_ID from the top plate of the robot
-
-Note that this will add a `source /etc/turtlebot4_discovery/setup.bash` into your `~/.bashrc` file, which needs to be commented out when running a simulation setup.
-
-Then, restart the ros2 daemon:
-```
-ros2 daemon stop
-ros2 daemon start
+export CYCLONEDDS_URI='/home/<your_user_name>/cyclonedds.xml'
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ```
  
-Then, source .bashrc, or re-open any terminals so the new `.bashrc` is properly sourced. This should be it!
+Then, source .bashrc, or re-open any terminals so the new `.bashrc` is properly sourced. 
 
-Check 1 - To check if the robot is properly connected you can inspect topics with:
+Optionally, restart the `ros2 daemon` just to be sure:
+```
+ros2 daemon stop; ros2 daemon start
+```
+
+This should be it!
+
+#### Check 1
+
+To check if the robot is properly connected you can inspect topics with:
 
     ros2 topic list
 
-You should see a lot of topics.
+You should see a lot of topics. If not, recheck:
+- that the robot is charged and powered on
+- your network settings, DDS and domain config
 
-Check 2 - See if you can move the robot with keyboard teleoperation:
+#### Check 2
+
+See if you are receiving the `/odom` topic:
+
+    ros2 topic echo /odom
+
+You should see a stream of data. If not, the Create3 base has not yet booted, wait for the chime sound.
+
+#### Check 3
+
+See if you can move the robot with keyboard teleoperation:
 
     ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 You should be able to move the robot.
-
-Check 3 - See if you are receiving the `/odom` messages:
-
-    ros2 topic echo /odom
 
 If you have passed all the checks, you can move on with building a map and navigating the robot.
 
