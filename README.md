@@ -1,6 +1,6 @@
 # Tutorial 5: The Real Turtlebot 4
 
-#### Development of Intelligent Systems, 2024
+#### Development of Intelligent Systems, 2025
 
 ![robots](figs/robots.png)
 *The Company of iRobot*
@@ -73,6 +73,8 @@ ros2 daemon stop; ros2 daemon start
 
 This should be it!
 
+----------------
+
 #### Check 1
 
 To check if the robot is properly connected you can inspect topics with:
@@ -81,7 +83,9 @@ To check if the robot is properly connected you can inspect topics with:
 
 You should see a lot of topics. If not, recheck:
 - that the robot is charged and powered on
-- your network settings, DDS and domain config
+- your network settings
+- your DDS config (`echo $RMW_IMPLEMENTATION`)
+- your domain config (`echo $ROS_DOMAIN_ID`)
 
 #### Check 2
 
@@ -103,11 +107,15 @@ If you have passed all the checks, you can move on with building a map and navig
 
 ## Building a map
 
-The procedure for building a map is a little simpler than when using the simulation, we only need to start the SLAM and the keyboard teleoperation. Please follow the [official tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/generate_map.html).
+The procedure for building a map is a little simpler than when using the simulation, we only need to start the SLAM and the keyboard teleoperation. 
+
+Please follow the [official map making tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/generate_map.html).
 
 ## Navigating a map
 
-Once you have save a map, we can navigatte the robot on the map. Again, follow the [official tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/navigation.html).
+Once you have save a map, we can have the robot navigate around the map. 
+
+Check the [official navigation tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/navigation.html).
 
 ## Transform frames
 
