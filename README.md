@@ -49,7 +49,7 @@ Your computer should be connected to the same network as the robot (e.g. for the
 
 After it is connected, you need to adjust the ROS_DOMAIN_ID to match the one written on the robot, and switch `RMW_IMPLEMENTATION` to `rmw_cyclonedds_cpp`.
 
-The Cyclone middleware requires [an xml config](cyclonedds.xml), specified as the `CYCLONEDDS_URI` envrionment variable.
+The Cyclone middleware requires [an xml config](cyclonedds.xml), specified as the `CYCLONEDDS_URI` envrionment variable. For more info about the cyclone config, [see here](https://iroboteducation.github.io/create3_docs/setup/xml-config/), you might need to specify the network interface explicitly if using multiple ones e.g. `<NetworkInterface name="wlan0" />`.
 
 ![domain](figs/domain.png)
 *The sticker with the ROS_DOMAIN_ID, different for each robot
