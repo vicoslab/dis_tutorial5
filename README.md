@@ -1,20 +1,22 @@
-# Tutorial 6: Point Cloud Library and ring detection
 
-#### Development of Intelligent Systems, 2024
+# Tutorial 5: Point Cloud Library and ring detection
 
-This exercise will show a few examples of how to use the [Point Cloud Library (PCL)](https://pointclouds.org/) and OpenCV to extract information from the RGBD camera. The PCL project contains a large number of [tutorials](https://pcl.readthedocs.io/projects/tutorials/en/master/) demonstrating how to use the library. From the code in this tutorial you can extrapolate how to use the PCL library in ROS2. For our purposes, the tutorials on PointCloud [segmentation](https://pcl.readthedocs.io/projects/tutorials/en/master/#segmentation) are the most relevant. The given examples use the RANSAC algorithm to find planes and cylinders, and extract the inliers. 
+#### Development of Intelligent Systems, 2025
+
+This exercise will show a few examples of how to use the [Point Cloud Library (PCL)](https://pointclouds.org/) and OpenCV to extract information from the RGBD camera. The PCL project contains a large number of [tutorials](https://pcl.readthedocs.io/projects/tutorials/en/master/) demonstrating how to use the library. From the code in this tutorial, you can extrapolate how to use the PCL library in ROS2. For our purposes, the tutorials on PointCloud [segmentation](https://pcl.readthedocs.io/projects/tutorials/en/master/#segmentation) are the most relevant. The given examples use the RANSAC algorithm to find planes and cylinders, and extract the inliers. 
 
 ## Plane segmentation
-
+***NOTE: This is the content from last year's task. It is included here as a point of interest only. You are not required to use it.*** 
 For many different tasks, segmenting the ground plane, or finding other dominant planes in a point cloud is important. This is implemented in the `planes.cpp` node. After building the package, you can run it with:
 ```
-ros2 run dis_tutorial6 planes
+ros2 run dis_tutorial5 planes
 ```
 
 ## Cylinder segmentation
-Please note that the given node fits a cylinder to every pointcloud it recieves. It should be used to find the accurate position of a cylinder, but it is not reliable as a cylinder detector. It can be used, but you need to filter out the false detections.
+***NOTE: This is the content from last year's task. It is included here as a point of interest only. You are not required to use it.*** 
+Please note that the given node fits a cylinder to every point cloud it receives. It should be used to find the accurate position of a cylinder, but it is not reliable as a cylinder detector. It can be used, but you need to filter out the false detections.
 
-First we transform the ROS2 message to a PCL pointcloud, and then to a type appropriate for processing:
+First we transform the ROS2 message to a PCL point cloud, and then to a type appropriate for processing:
 ```
 // convert ROS msg to PointCloud2
 pcl_conversions::toPCL(*msg, *pcl_pc);
@@ -32,7 +34,7 @@ pass.setFilterLimits(0, 10);
 pass.filter(*cloud_filtered);
 ```
 
-Then, we calculate normals to the points. For each point we take a look at its neighbours and estimate the normal to the surface. This is one of many possible approaches to do this. In this way, we can also create a 3d mesh from 3d points:
+Then, we calculate normals to the points. For each point, we take a look at its neighbors and estimate the normal to the surface. This is one of many possible approaches to do this. In this way, we can also create a 3d mesh from 3d points:
 ```
 // Estimate point normals
 ne.setSearchMethod(tree);
@@ -98,8 +100,7 @@ pcl::compute3DCentroid(*cloud_cylinder, centroid);
 ```
 
 ## Ring detection
-The given code is a demo of how to extract planar rings from the image. This is one of the simplest possible approaches, for demonstration purposes. You are highly encouraged to develop your own approach. The given code is explained below, which you should at least customize to improve its performance:
-
+In the script *detect_rings.py* you can find a rough demonstration for finding the rings in the image. This is one of the simplest possible approaches, for demonstration purposes. You are highly encouraged to develop your own approach. The given code is explained below, which you should at least customize to improve its performance:
 
 First, convert the image to numpy form:
 ```
@@ -120,7 +121,7 @@ Optionally, apply histogram equalization. This is done to improve the contrast o
 gray = cv2.equalizeHist(gray)
 ```
 
-Apply thresholding to get a binary image. There are different possible apporoaches: global, Otsu, adaptive:
+Apply thresholding to get a binary image. There are different possible approaches: global, Otsu, adaptive:
 ```
 #ret, thresh = cv2.threshold(img, 50, 255, 0)
 #ret, thresh = cv2.threshold(img, 70, 255, cv2.THRESH_BINARY)
@@ -161,13 +162,14 @@ if angle_diff>4:
     continue
 ```
 
-And we can think of other filters, like the width of the ring should be approximately the same along the major and minor axis of the ellipses, the width of the ring should be smaller than the minor axis of the inner ellipse and so on.
+And we can think of other filters, like the width of the ring should be approximately the same along the major and minor axis of the ellipses, the width of the ring should be smaller than the minor axis of the inner ellipse and so on. You will need to additionally add the recognition of ring color, as well as determine if the ring is actually a 3d ring, or just an image of a ring. You will likely need to use point cloud data for this.
 
 ## TODO for students:
-As part of Task 2, you need to find all the cylinders, 3D rings, and parking spaces (2D) rings in the image. The code in this exercise will NOT perform this tasks out of the box. You should either develop a completely new approach, or use this code as a starting point.
+As part of Task 1, you need to find the faces and the 3D rings in the course. The code in this exercise will NOT perform this tasks out of the box. You should either develop a completely new approach, or use this code as a starting point.
+**General note:** Use markers in RVIZ to help with interpreting your robot's perception and knowledge. It is much easier than looking at terminal output. You can program markers to have different colors, sizes and shapes. Display the hardcoded points for movement, face locations, ring candidates, colors, etc.
 
-### For cylinder detection
-In addition to the point cloud data, you also have the RGB image, the depth image, and the laser scan which you can use to detect the cylinders. The cylinders have color which is very different from the background. The cylinders have a specific size. When looking at the laser scan, the cylinders look like (incomplete) perfect circles. You should use some or all of these properties to robustly detect the cylinders. Furthermore, the `cylinder_segmentation.cpp` node can be optimized significantly to reject false detections (filter out more points, the number of inliers should be above some threshold, the fitted cylinder should be of a certain size, and should be oriented in a certain way).
+### For face detection
+Your person detector will process every image and detect the face multiple times when the robot moving around the course. You need to group the detections in the map coordinate space to establish a good estimation of the face's position. Additionally, for programming the robot approach, you might want to also calculate the direction of the wall on which the face is (i.e. the normal of the wall).
 
 ### For ring detection
-There are two types of rings that should be detected, 3D and 2D. There are, again, many different approaches that you can take. You can choose to further robustify the given approach, by improving the image preprocessing and improving the rejection of false detections. You can also exploit the color information in the image (maybe color segmentation can work?). For the 3D rings, there should be a hole in the inside ellipse, which can be verified from the point cloud or the depth image. The 3D rings are also higher, always above the central point in the image. The 2D rings are on the ground, always below the central point of the image. Have fun!
+There are two types of rings that should be detected, 3D and 2D. There are, again, many different approaches that you can take. You can choose to further robustify the given approach, by improving the image preprocessing and improving the rejection of false detections. You can also exploit the color information in the image (maybe color segmentation can work?). For the 3D rings, there should be a hole in the inside ellipse, which can be verified from the point cloud or the depth image.
