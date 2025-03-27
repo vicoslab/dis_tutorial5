@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(dis_tutorial6)
+project(dis_tutorial5)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
