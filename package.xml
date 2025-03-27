@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>dis_tutorial6</name>
+  <name>dis_tutorial5</name>
   <version>0.0.0</version>
-  <description>DIS tutorial 6 packages</description>
+  <description>DIS tutorial 5 packages</description>
   <maintainer email="jon.muhovic@fri.uni-lj.si">jo</maintainer>
   <license>Apache-2.0</license>
 
